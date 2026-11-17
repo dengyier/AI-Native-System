@@ -1,0 +1,47 @@
+name: Publish framework to MCP Registry
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  publish:
+    if: github.repository == 'dengyier/AI-Native-System' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify public PyPI release
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from urllib.request import urlopen
+
+          manifest = json.loads(Path("server.json").read_text())
+          package, = manifest["packages"]
+          assert package["registryType"] == "pypi"
+          identifier, version = package["identifier"], package["version"]
+          assert identifier == "ai-native-system" and version == manifest["version"]
+          with urlopen(f"https://pypi.org/pypi/{identifier}/{version}/json", timeout=15) as response:
+              release = json.load(response)
+          assert release["urls"], "The PyPI release needs downloadable files"
+          assert f"mcp-name: {manifest['name']}" in release["info"]["description"]
+          PY
+      - name: Download verified MCP publisher
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/mcp-publisher.tar.gz"
+          curl --fail --location --silent --show-error --output "$archive" \
+            https://github.com/modelcontextprotocol/registry/releases/download/v1.8.9/mcp-publisher_linux_amd64.tar.gz
+          printf '%s  %s\n' 4d527ca8f1ced0394c962dc925c2a4a4addef441cbefd62501c875e9481823a8 "$archive" | sha256sum --check
+          tar -xzf "$archive" -C "$RUNNER_TEMP" mcp-publisher
+      - name: Publish with GitHub OIDC
+        run: |
+          "$RUNNER_TEMP/mcp-publisher" login github-oidc
+          "$RUNNER_TEMP/mcp-publisher" publish

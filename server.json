@@ -10,21 +10,12 @@
   },
   "packages": [
     {
-      "registryType": "pypi",
-      "identifier": "ai-native-system",
-      "version": "0.1.1",
-      "transport": {"type": "stdio"},
-      "runtimeHint": "uvx",
-      "runtimeArguments": [
-        {"type": "named", "name": "--with", "value": "mcp==2.3.0"}
-      ],
-      "packageArguments": [
-        {"type": "positional", "value": "mcp"}
-      ],
-      "environmentVariables": [
-        {"name": "AI_NATIVE_API_URL", "description": "The AI Native System API origin", "isRequired": true},
-        {"name": "AI_NATIVE_API_TOKEN", "description": "The bearer token for an authorized API identity", "isRequired": true, "isSecret": true}
-      ]
+      "registryType": "mcpb",
+      "identifier": "https://github.com/dengyier/AI-Native-System/releases/download/v0.1.1/ai-native-system-0.1.1.mcpb",
+      "fileSha256": "eee8c9ac3119cd5b020fe7bf4f27fcdc1e3836da26ad3ef6c7c8a8f8b2988a7c",
+      "transport": {
+        "type": "stdio"
+      }
     }
   ]
 }

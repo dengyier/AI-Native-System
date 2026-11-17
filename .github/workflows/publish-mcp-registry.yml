@@ -16,22 +16,25 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Verify public PyPI release
+      - name: Verify public GitHub release bundle
         run: |
           python3 - <<'PY'
+          import hashlib
           import json
           from pathlib import Path
           from urllib.request import urlopen
 
           manifest = json.loads(Path("server.json").read_text())
           package, = manifest["packages"]
-          assert package["registryType"] == "pypi"
-          identifier, version = package["identifier"], package["version"]
-          assert identifier == "ai-native-system" and version == manifest["version"]
-          with urlopen(f"https://pypi.org/pypi/{identifier}/{version}/json", timeout=15) as response:
-              release = json.load(response)
-          assert release["urls"], "The PyPI release needs downloadable files"
-          assert f"mcp-name: {manifest['name']}" in release["info"]["description"]
+          assert package["registryType"] == "mcpb"
+          version = manifest["version"]
+          expected_url = (
+              "https://github.com/dengyier/AI-Native-System/releases/download/"
+              f"v{version}/ai-native-system-{version}.mcpb"
+          )
+          assert package["identifier"] == expected_url
+          with urlopen(expected_url, timeout=30) as response:
+              assert hashlib.file_digest(response, "sha256").hexdigest() == package["fileSha256"]
           PY
       - name: Download verified MCP publisher
         run: |

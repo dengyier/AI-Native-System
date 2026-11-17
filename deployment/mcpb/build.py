@@ -1,10 +1,10 @@
-"""Build a local MCPB artifact from the exact v0.1.0 release revision."""
+"""Build a local MCPB artifact using source from a committed release revision."""
 
 import argparse
 import hashlib
 import json
-import shutil
 import subprocess
+import tomllib
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -12,8 +12,6 @@ from tempfile import TemporaryDirectory
 DIRECTORY = Path(__file__).resolve().parent
 ROOT = DIRECTORY.parents[1]
 REPOSITORY = "https://github.com/dengyier/AI-Native-System"
-TAG = "v0.1.0"
-REVISION = "e23a19f317b72644277d7c6f2c3d29073f4377d7"
 CLI = ("npx", "--yes", "@anthropic-ai/mcpb@2.1.2")
 SOURCE_FILES = (
     "LICENSE.md",
@@ -23,22 +21,37 @@ SOURCE_FILES = (
     "ai_native_system/__init__.py",
     "ai_native_system/mcp_server.py",
 )
+BUNDLE_FILES = ("manifest.json", "pyproject.toml", "server.py", "PRIVACY.md")
 
 
-def build(output: Path):
+def read_source(tree: str, name: str) -> bytes:
+    return subprocess.check_output(["git", "show", f"{tree}:{name}"], cwd=ROOT)
+
+
+def build(output: Path, ref: str = "HEAD"):
+    tree = subprocess.check_output(
+        ["git", "rev-parse", "--verify", "--end-of-options", f"{ref}^{{tree}}"], cwd=ROOT, text=True,
+    ).strip()
+    framework = tomllib.loads(read_source(tree, "pyproject.toml").decode("utf-8"))["project"]
+    bundle_files = {name: read_source(tree, f"deployment/mcpb/{name}") for name in BUNDLE_FILES}
+    bundle_project = tomllib.loads(bundle_files["pyproject.toml"].decode("utf-8"))["project"]
+    manifest = json.loads(bundle_files["manifest.json"])
+    version = framework["version"]
+    if (manifest["version"] != version or bundle_project["version"] != version
+            or manifest["license"] != framework["license"]):
+        raise SystemExit("MCPB version and license must match the selected framework revision.")
     output = output.resolve()
     output.mkdir(parents=True, exist_ok=True)
-    manifest = json.loads((DIRECTORY / "manifest.json").read_text(encoding="utf-8"))
-    bundle = output / f'{manifest["name"]}-{manifest["version"]}.mcpb'
+    bundle = output / f'{manifest["name"]}-{version}.mcpb'
 
     with TemporaryDirectory() as directory:
         staging = Path(directory)
-        for name in ("manifest.json", "pyproject.toml", "server.py", "PRIVACY.md"):
-            shutil.copyfile(DIRECTORY / name, staging / name)
+        for name, content in bundle_files.items():
+            (staging / name).write_bytes(content)
         for name in SOURCE_FILES:
             path = staging / name
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(subprocess.check_output(["git", "show", f"{REVISION}:{name}"], cwd=ROOT))
+            path.write_bytes(read_source(tree, name))
 
         subprocess.run([*CLI, "validate", str(staging / "manifest.json")], check=True)
         subprocess.run([*CLI, "pack", str(staging), str(bundle)], check=True)
@@ -48,11 +61,11 @@ def build(output: Path):
         "name": "io.github.dengyier/ai-native-system",
         "title": manifest["display_name"],
         "description": manifest["description"],
-        "version": manifest["version"],
+        "version": version,
         "repository": {"url": REPOSITORY, "source": "github"},
         "packages": [{
             "registryType": "mcpb",
-            "identifier": f"{REPOSITORY}/releases/download/{TAG}/{bundle.name}",
+            "identifier": f"{REPOSITORY}/releases/download/v{version}/{bundle.name}",
             "fileSha256": hashlib.sha256(bundle.read_bytes()).hexdigest(),
             "transport": {"type": "stdio"},
         }],
@@ -66,4 +79,6 @@ def build(output: Path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
-    build(parser.parse_args().output)
+    parser.add_argument("--ref", default="HEAD", help="Git tree or revision containing the release files")
+    args = parser.parse_args()
+    build(args.output, args.ref)

@@ -2,11 +2,11 @@
   "manifest_version": "0.4",
   "name": "ai-native-system",
   "display_name": "AI Native System",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read authorized applications and task status from an AI Native System deployment.",
   "author": {"name": "dengyier"},
   "repository": {"type": "git", "url": "https://github.com/dengyier/AI-Native-System"},
-  "license": "LicenseRef-AI-Native-System-Noncommercial-1.2 AND MIT",
+  "license": "LicenseRef-AI-Native-System-Noncommercial-1.3 AND MIT",
   "privacy_policies": [
     "https://github.com/dengyier/AI-Native-System/blob/main/deployment/mcpb/PRIVACY.md"
   ],

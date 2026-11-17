@@ -1,0 +1,45 @@
+{
+  "manifest_version": "0.4",
+  "name": "ai-native-system",
+  "display_name": "AI Native System",
+  "version": "0.1.0",
+  "description": "Read authorized applications and task status from an AI Native System deployment.",
+  "author": {"name": "dengyier"},
+  "repository": {"type": "git", "url": "https://github.com/dengyier/AI-Native-System"},
+  "license": "LicenseRef-AI-Native-System-Noncommercial-1.2 AND MIT",
+  "privacy_policies": [
+    "https://github.com/dengyier/AI-Native-System/blob/main/deployment/mcpb/PRIVACY.md"
+  ],
+  "server": {
+    "type": "uv",
+    "entry_point": "server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": ["run", "--directory", "${__dirname}", "server.py"],
+      "env": {
+        "AI_NATIVE_API_URL": "${user_config.api_url}",
+        "AI_NATIVE_API_TOKEN": "${user_config.api_token}"
+      }
+    }
+  },
+  "tools": [
+    {"name": "list_applications", "description": "List applications visible to the configured identity."},
+    {"name": "get_task", "description": "Read an existing task if the configured identity can access it."}
+  ],
+  "compatibility": {"runtimes": {"python": ">=3.11 <3.16"}},
+  "user_config": {
+    "api_url": {
+      "type": "string",
+      "title": "Deployment API URL",
+      "description": "HTTPS origin of your AI Native System deployment, or a local HTTP loopback origin.",
+      "required": true
+    },
+    "api_token": {
+      "type": "string",
+      "title": "Deployment API token",
+      "description": "Bearer credential issued for your authorized deployment identity.",
+      "required": true,
+      "sensitive": true
+    }
+  }
+}

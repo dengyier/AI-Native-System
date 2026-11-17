@@ -1,4 +1,4 @@
-# AI Native System
+# AI Native System (AINS)
 
 <!-- mcp-name: io.github.dengyier/ai-native-system -->
 
@@ -22,6 +22,15 @@
 Agent 进程只持模型侧凭据，从可信服务收到按权限裁剪的上下文。业务凭据由执行服务持有。已批准动作在派发前复核当前事实、资源权限与签名，源端结果不确定时按原操作 ID 查询回执。 [可编辑架构图](docs/六层系统架构总图.md) · [Agent 隔离及恢复演练](docs/P9-企业试点与恢复演练.md)
 
 ## 快速开始
+
+### PyPI 安装
+
+```bash
+python -m pip install "ai-native-system==0.1.1"
+ai-native-system --help
+```
+
+AINS 短包将同版本的主框架作为依赖，提供 `ains` 和 `ains-mcp` 命令。短包上架后可用 `pip install ains` 安装框架，或用 `pip install "ains[mcp]"` 一并安装 MCP 支持。 [官方 PyPI](https://pypi.org/project/ai-native-system/) · [短包源码](deployment/ains/)
 
 ### 本地演示
 

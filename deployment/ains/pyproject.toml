@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ains"
+version = "0.1.1"
+description = "Short installation and command names for AI Native System"
+requires-python = ">=3.11,<3.16"
+dependencies = ["ai-native-system==0.1.1"]
+readme = "README.md"
+license = "LicenseRef-AI-Native-System-Noncommercial-1.3"
+license-files = ["LICENSE.md"]
+
+[project.scripts]
+ains = "ai_native_system.__main__:main"
+ains-mcp = "ains_launcher:mcp_main"
+
+[project.optional-dependencies]
+mcp = ["ai-native-system[mcp]==0.1.1"]
+
+[project.urls]
+Repository = "https://github.com/dengyier/AI-Native-System"
+License = "https://github.com/dengyier/AI-Native-System/blob/main/LICENSE.md"
+
+[tool.setuptools]
+py-modules = ["ains_launcher"]

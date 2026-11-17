@@ -1,4 +1,4 @@
-# AI Native System 非商业使用许可 v1.0
+# AI Native System 非商业使用许可 v1.1
 
 Copyright © 2026 dengyier. 保留所有权利。
 
@@ -14,7 +14,9 @@ Copyright © 2026 dengyier. 保留所有权利。
 
 任何商业使用均须事先取得 dengyier 的单独书面授权。商业使用包括服务于企业的正式生产或经营活动、作为收费产品或服务的一部分使用、向客户交付、对外商业托管、转售及其他以取得直接或间接商业利益为目的的使用。
 
-对外分发项目源码、二进制副本、文档或基于项目的修改版本，以及再许可，均须事先取得 dengyier 的书面授权。商业许可及分发许可可联系 [dengyier](https://github.com/dengyier)。
+本仓库在 GitHub 公开。通过 GitHub 平台功能查看、展示或 Fork 本仓库的权限适用 [GitHub 服务条款](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#5-license-grant-to-other-users)。平台条款授权范围以外的对外分发，包括分发项目源码、二进制副本、文档及修改版本，以及再许可，均须事先取得 dengyier 的书面授权。
+
+商业使用及分发授权可联系 [dengyier](https://github.com/dengyier)。
 
 ## 4. 权利保留
 

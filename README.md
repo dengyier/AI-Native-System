@@ -137,4 +137,8 @@ node local_model.mjs
 
 ## 许可
 
-Copyright © 2026 dengyier. 项目原创代码、文档及架构图的权利由 dengyier 持有。个人学习和非商业使用免费，任何商业使用须取得单独书面授权。第三方依赖适用各自的上游许可证。 [完整许可](LICENSE.md) · [依赖与许可证](docs/P0-环境验收.md#锁定版本与许可)
+Copyright © 2026 dengyier. 本项目采用 [AI Native System 非商业使用许可 v1.1](LICENSE.md)。原创代码、文档及架构图的知识产权由 dengyier 持有。
+
+个人学习和非商业使用免费。企业生产、客户交付、收费托管等商业使用须事先获得单独书面授权。GitHub 平台内的查看与 Fork 适用平台服务条款，对外分发和再许可依项目许可执行。 [商业授权联系 dengyier](https://github.com/dengyier)
+
+第三方依赖适用各自的上游许可证。 [依赖与许可证](docs/P0-环境验收.md#锁定版本与许可)

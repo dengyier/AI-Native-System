@@ -1,0 +1,54 @@
+{
+  "default": "default",
+  "allow_providers": ["approved-provider"],
+  "max_context_bytes": 8192,
+  "limits": {
+    "max_active": 4,
+    "max_attempts": 2,
+    "max_tokens": 1000000,
+    "max_cost_nanos": 1000000000,
+    "deadline_seconds": 25
+  },
+  "routes": {
+    "default": {
+      "adapter": "litellm",
+      "provider": "approved-provider",
+      "base_url": "https://models.example.invalid/v1",
+      "model": "configured-generation-model",
+      "api_key_env": "AI_NATIVE_GENERATION_API_KEY",
+      "version": "generation-v1",
+      "timeout": 10,
+      "max_output_tokens": 256,
+      "policy": {
+        "data": {
+          "object_fields": ["checksum_ok"],
+          "knowledge_ids": ["asset-policy"]
+        },
+        "accounting": {
+          "price_version": "example-prices-v1",
+          "input_nanos": 1000,
+          "output_nanos": 3000,
+          "max_input_tokens": 4096
+        }
+      }
+    }
+  },
+  "embeddings": {
+    "document-vector": {
+      "provider": "approved-provider",
+      "base_url": "https://models.example.invalid/v1",
+      "model": "configured-embedding-model",
+      "api_key_env": "AI_NATIVE_EMBEDDING_API_KEY",
+      "version": "vectors-v1",
+      "preprocessing_version": "raw-text-v1",
+      "dimensions": 1536,
+      "scopes": ["tenant"],
+      "accounting": {
+        "price_version": "example-prices-v1",
+        "input_nanos": 100,
+        "output_nanos": 0,
+        "max_input_tokens": 4096
+      }
+    }
+  }
+}

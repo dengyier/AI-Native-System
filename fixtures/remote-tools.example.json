@@ -1,0 +1,4 @@
+{"tools":[
+  {"name":"remote.transition","version":"1","transport":"http","endpoint":"http://127.0.0.1:8790","timeout":5,"idempotent":true},
+  {"name":"mcp.transition","version":"1","transport":"mcp","endpoint":"http://127.0.0.1:8791/mcp","execute_tool":"execute_operation","lookup_tool":"lookup_operation","timeout":5,"idempotent":true}
+]}

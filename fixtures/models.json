@@ -1,0 +1,8 @@
+{
+  "default": "default",
+  "max_context_bytes": 65536,
+  "routes": {
+    "default": {"adapter": "demo", "version": "1", "tags": ["offline-test"]},
+    "review": {"adapter": "demo", "version": "1", "tags": ["review-test"]}
+  }
+}

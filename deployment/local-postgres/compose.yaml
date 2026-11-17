@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.7-pg18-bookworm@sha256:38681dc6eaf55308e2a4c6de392d131652dcfac70e1263e35cd9b5ea3fe39782
+    environment:
+      POSTGRES_DB: ai_native_p0
+      POSTGRES_USER: p0_admin
+      POSTGRES_PASSWORD: ${AI_NATIVE_P0_ADMIN_PASSWORD:?Run verify.py to generate a temporary password}
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+    ports:
+      - target: 5432
+        host_ip: 127.0.0.1
+    tmpfs:
+      - /var/lib/postgresql
+    healthcheck:
+      test: [CMD, pg_isready, -h, 127.0.0.1, -U, p0_admin, -d, ai_native_p0]
+      interval: 2s
+      timeout: 3s
+      retries: 20

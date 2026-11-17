@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>运行台 · AI Native System</title>
+  <link rel="stylesheet" href="/console/style.css">
+  <script type="module" src="/console/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到工作区</a>
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div><strong>AI Native System</strong><span>运行台</span></div>
+    </div>
+    <form id="connect-form" class="connect-form" autocomplete="off">
+      <label for="credential">访问凭证</label>
+      <input id="credential" type="password" required autocomplete="off" spellcheck="false" autocapitalize="none">
+      <button type="submit" class="button button-light">连接</button>
+    </form>
+    <div id="session" class="session" hidden>
+      <span id="actor"></span>
+      <button id="disconnect" type="button" class="button button-outline">切换身份</button>
+    </div>
+  </header>
+  <div class="frame">
+    <nav class="rail" aria-label="工作区">
+      <button class="nav-button" type="button" data-view="tasks" aria-current="page">应用与任务</button>
+      <button class="nav-button" type="button" data-view="releases">发布管理</button>
+      <button class="nav-button" type="button" data-view="facts">事实核查</button>
+    </nav>
+    <main id="main">
+      <p id="notice" class="notice" role="status" aria-live="polite">使用企业访问凭证连接后，即可操作已获授权的应用。</p>
+      <section id="tasks" class="page" aria-labelledby="tasks-title">
+        <header class="page-header">
+          <h1 id="tasks-title">应用与任务</h1>
+          <p>启动应用，核对审批进度、操作回执与证据。</p>
+        </header>
+        <div class="split">
+          <aside class="stack" aria-label="任务入口">
+            <section class="sheet"><h2>启动应用</h2>
+              <form id="launch-form">
+                <fieldset data-needs-session disabled>
+                  <label>应用<select id="app"><option value="">选择应用</option></select></label>
+                  <p id="app-description" class="hint" hidden></p>
+                  <label id="object-field">对象标识<input id="object" maxlength="200" autocomplete="off"></label>
+                  <label id="version-field">对象版本<input id="object-version" type="number" min="1" max="2147483647" step="1"></label>
+                  <label id="query-field" hidden>问题或要求<textarea id="question" rows="3" maxlength="512"></textarea></label>
+                  <fieldset id="source-fields" class="choices" hidden>
+                    <legend>文档范围</legend>
+                    <div id="document-choices"></div>
+                  </fieldset>
+                  <div id="request-field">
+                    <label for="request-key">请求标识</label>
+                    <div class="inline-input"><input id="request-key" maxlength="200" autocomplete="off"><button id="new-key" type="button" class="button button-subtle" title="生成新请求标识">换一个</button></div>
+                  </div>
+                  <details id="launch-options">
+                    <summary>指定发布和引用</summary>
+                    <label>发布摘要<input id="launch-release" maxlength="150" autocomplete="off"></label>
+                    <label>知识引用<textarea id="launch-citations" rows="3" placeholder="粘贴检索返回的 citation 对象数组"></textarea></label>
+                  </details>
+                  <button id="launch-button" type="submit" class="button button-primary">启动应用</button>
+                </fieldset>
+              </form>
+            </section>
+            <section class="sheet"><h2>查看任务</h2>
+              <form id="load-task-form">
+                <fieldset data-needs-session disabled>
+                  <label>任务标识<input id="task-input" required maxlength="200" autocomplete="off"></label>
+                  <button id="load-task" type="submit" class="button button-subtle">查看任务</button>
+                </fieldset>
+              </form>
+            </section>
+          </aside>
+          <div class="stack">
+            <section class="sheet dossier" aria-label="任务详情">
+              <div id="task-empty" class="empty">
+                <div class="timeline-icon" aria-hidden="true"><i></i><i></i><i></i></div>
+                <h2>任务详情</h2><p>启动应用或输入任务标识查看进度。</p>
+              </div>
+              <div id="task-content" hidden>
+                <header class="dossier-header">
+                  <div><h2 id="task-heading">任务详情</h2><p id="task-id" class="mono"></p></div>
+                  <span id="task-status" class="state"></span>
+                </header>
+                <div id="task-facts"></div>
+                <div id="task-actions" class="actions">
+                  <button type="button" class="button button-primary" data-operation="advance">推进任务</button>
+                  <button type="button" class="button button-subtle" data-operation="reconcile">核对回执</button>
+                  <button type="button" class="button button-danger" data-operation="cancel">取消任务</button>
+                  <button id="load-handoff" type="button" class="button button-subtle" hidden>查看人工接管</button>
+                </div>
+                <section id="review" class="review" hidden>
+                  <h3>待审批提议</h3>
+                  <div id="review-details"></div>
+                  <div class="actions">
+                    <button type="button" class="button button-primary" data-decision="approve">审批通过</button>
+                    <button type="button" class="button button-danger" data-decision="reject">拒绝提议</button>
+                    <button id="retry-decision" type="button" class="button button-subtle" hidden>重试原审批</button>
+                  </div>
+                </section>
+                <section id="handoff" class="review" hidden>
+                  <h3>人工接管</h3>
+                  <div id="handoff-details"></div>
+                  <form id="handoff-form">
+                    <label>处理说明<textarea id="handoff-reason" maxlength="300" rows="2" required></textarea></label>
+                    <div class="actions">
+                      <button type="submit" name="handoff" value="accept" class="button button-subtle">接受人工处理</button>
+                      <button type="submit" name="handoff" value="reject" class="button button-danger">拒绝人工处理</button>
+                    </div>
+                  </form>
+                </section>
+              </div>
+              <div id="app-result" hidden><h2>应用结果</h2><div id="result-details"></div></div>
+            </section>
+            <section id="activity" class="sheet" hidden aria-labelledby="events-title">
+              <div class="section-bar"><h2 id="events-title">任务事件</h2><button id="load-events" type="button" class="button button-subtle">读取事件</button></div>
+              <ol id="events" class="timeline"></ol>
+              <button id="more-events" type="button" class="button button-subtle" hidden>读取下一页</button>
+            </section>
+            <section id="proof" class="sheet" hidden aria-labelledby="proof-title">
+              <div class="section-bar">
+                <h2 id="proof-title">证据与回执</h2>
+                <div class="actions">
+                  <button id="load-proof" type="button" class="button button-subtle">核验状态</button>
+                    <button id="download-proof" type="button" class="button button-subtle" hidden>导出摘要</button>
+                </div>
+              </div>
+              <div id="proof-details"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+      <section id="releases" class="page" aria-labelledby="releases-title" hidden>
+        <header class="page-header">
+          <h1 id="releases-title">发布管理</h1>
+          <p>查看应用与本体定义，确认影响后发布或选择版本。</p>
+        </header>
+        <div class="split">
+          <section class="sheet"><h2>版本与操作</h2>
+            <form id="release-form">
+              <fieldset data-needs-session disabled>
+                <label>应用<input id="release-app" list="app-options" maxlength="150" autocomplete="off"></label>
+                <datalist id="app-options"></datalist>
+                <label>发布摘要<input id="release-id" maxlength="150" autocomplete="off"></label>
+                <label>迁移说明<input id="migration-ref" maxlength="250" autocomplete="off"></label>
+                <details id="draft-options">
+                  <summary>草稿配置</summary>
+                  <label>本体定义<textarea id="draft-ontology" rows="4" placeholder="可选，输入本体 JSON"></textarea></label>
+                  <label>知识策略<select id="knowledge-strategy"><option value="">使用默认策略</option><option value="current-by-id-v1">当前文档</option><option value="authorized-fragments-v1">已授权的片段</option></select></label>
+                  <label>安全策略<input id="draft-policy-version" maxlength="150" autocomplete="off"></label>
+                  <label>OpenWorkProof 配置<input id="draft-profile" maxlength="150" autocomplete="off"></label>
+                </details>
+                <button type="submit" value="show" class="button button-subtle">读取版本</button>
+                <button type="submit" value="impact" class="button button-subtle">比较影响</button>
+                <div id="release-controls" class="actions" hidden>
+                  <button type="submit" value="draft" class="button button-subtle">生成草稿</button>
+                  <button type="submit" value="publish" class="button button-primary" data-release-action disabled>发布版本</button>
+                  <button type="submit" value="select" class="button button-subtle" data-release-action disabled>选择为当前版本</button>
+                  <button type="submit" value="deprecate" class="button button-subtle" data-release-action disabled>停用新任务</button>
+                  <button type="submit" value="revoke" class="button button-danger" data-release-action disabled>撤销发布</button>
+                </div>
+                <details id="rule-options" hidden>
+                  <summary>绑定事实规则</summary>
+                  <label>规则标识<input id="bind-rule-id" maxlength="150" autocomplete="off"></label>
+                  <label>回流来源<input id="bind-feedback-source" maxlength="150" autocomplete="off"></label>
+                  <label>回流数据流<input id="bind-feedback-stream" maxlength="150" autocomplete="off"></label>
+                  <button type="submit" value="bind-rule" class="button button-subtle" data-release-action disabled>绑定规则</button>
+                </details>
+              </fieldset>
+            </form>
+          </section>
+          <section class="sheet dossier"><h2>发布详情</h2><div id="release-result" class="result-area"><p class="hint">输入发布摘要查看定义或影响。</p></div></section>
+        </div>
+      </section>
+      <section id="facts" class="page" aria-labelledby="facts-title" hidden>
+        <header class="page-header">
+          <h1 id="facts-title">事实核查</h1>
+          <p>按对象读取当前依据及来源，检查冲突或过期的事实。</p>
+        </header>
+        <div class="split">
+          <section class="sheet"><h2>查询对象</h2>
+            <form id="facts-form">
+              <fieldset data-needs-session disabled>
+                <label>对象类型<input id="fact-type" required maxlength="150" autocomplete="off"></label>
+                <label>对象标识<input id="fact-object" required maxlength="200" autocomplete="off"></label>
+                <label>应用标识（可选）<input id="fact-app" list="app-options" maxlength="150" autocomplete="off"></label>
+                <label>字段<input id="fact-field" required maxlength="200" autocomplete="off"></label>
+                <fieldset id="fact-authoritative-options" hidden>
+                  <p class="hint" id="fact-field-help">可用逗号分隔字段。查询对象状态时填写 $state。</p>
+                  <label>关系名称（可选）<input id="fact-relation" maxlength="150" autocomplete="off"></label>
+                  <label class="choice"><input id="fact-preview" type="checkbox" checked><span>预览动作规则</span></label>
+                </fieldset>
+                <button type="submit" class="button button-primary">查看事实</button>
+              </fieldset>
+            </form>
+          </section>
+          <section class="sheet dossier"><h2>当前事实与来源</h2><div id="facts-result" class="result-area"><p class="hint">指定对象后查看事实与新鲜度。</p></div></section>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

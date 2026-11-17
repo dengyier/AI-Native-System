@@ -1,0 +1,486 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-native-action:0.1:authorization",
+  "title": "AI Native enterprise action authorization",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "payload",
+    "signer_key_id",
+    "signature_alg",
+    "digest",
+    "signature"
+  ],
+  "properties": {
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "nonce",
+        "epoch",
+        "issued_at",
+        "expires_at",
+        "scope"
+      ],
+      "properties": {
+        "profile": {
+          "const": "ai-native-action/v0.1"
+        },
+        "nonce": {
+          "$ref": "#/$defs/identifier"
+        },
+        "epoch": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/positiveSafeInteger"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/positiveSafeInteger"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        }
+      }
+    },
+    "signer_key_id": {
+      "type": "string",
+      "pattern": "^ed25519:[0-9a-f]{64}$"
+    },
+    "signature_alg": {
+      "const": "Ed25519"
+    },
+    "digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^(?=.*\\S)[^\\u0000-\\u001F\\u007F-\\u009F]+$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "positiveSafeInteger": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "version": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/identifier"
+        },
+        {
+          "$ref": "#/$defs/positiveSafeInteger"
+        }
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tenant",
+        "actor",
+        "service",
+        "delegation_id",
+        "expires_at"
+      ],
+      "properties": {
+        "tenant": {
+          "$ref": "#/$defs/identifier"
+        },
+        "actor": {
+          "$ref": "#/$defs/identifier"
+        },
+        "service": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "delegation_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expires_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/positiveSafeInteger"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/identifier"
+        },
+        "id": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "resource_id",
+        "member"
+      ],
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/identifier"
+        },
+        "resource_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "member": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tenant",
+        "task_id",
+        "operation_id",
+        "action_instance_id",
+        "executor",
+        "action",
+        "release_digest",
+        "ontology_digest",
+        "parameters_digest",
+        "policy_version",
+        "action_version",
+        "action_kind",
+        "requester",
+        "approver",
+        "approval_digest",
+        "rule_versions",
+        "rule_proof_digest",
+        "fact_read_set_digest",
+        "targets",
+        "reads",
+        "writes",
+        "tool"
+      ],
+      "properties": {
+        "tenant": {
+          "$ref": "#/$defs/identifier"
+        },
+        "task_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "action_instance_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "executor": {
+          "$ref": "#/$defs/identifier"
+        },
+        "action": {
+          "$ref": "#/$defs/identifier"
+        },
+        "release_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "ontology_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "parameters_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "policy_version": {
+          "$ref": "#/$defs/version"
+        },
+        "action_version": {
+          "$ref": "#/$defs/version"
+        },
+        "action_kind": {
+          "enum": [
+            "read",
+            "generate",
+            "write_local",
+            "write_remote"
+          ]
+        },
+        "requester": {
+          "$ref": "#/$defs/identity"
+        },
+        "approver": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/identity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approval_digest": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rule_versions": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "maxProperties": 128,
+          "additionalProperties": {
+            "$ref": "#/$defs/version"
+          }
+        },
+        "rule_proof_digest": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fact_read_set_digest": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "targets": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/target"
+          }
+        },
+        "reads": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/resource"
+          }
+        },
+        "writes": {
+          "type": "array",
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/resource"
+          }
+        },
+        "tool": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "version",
+            "destination_digest"
+          ],
+          "properties": {
+            "name": {
+              "$ref": "#/$defs/identifier"
+            },
+            "version": {
+              "$ref": "#/$defs/version"
+            },
+            "destination_digest": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/digest"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "action_kind": {
+                "enum": [
+                  "write_local",
+                  "write_remote"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "approver": {
+                "$ref": "#/$defs/identity"
+              },
+              "approval_digest": {
+                "$ref": "#/$defs/digest"
+              },
+              "rule_versions": {
+                "minProperties": 1
+              },
+              "targets": {
+                "minItems": 1
+              },
+              "writes": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "writes": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_kind": {
+                "const": "write_remote"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "tool": {
+                "properties": {
+                  "destination_digest": {
+                    "$ref": "#/$defs/digest"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_kind": {
+                "const": "write_local"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "tool": {
+                "properties": {
+                  "destination_digest": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_versions": {
+                "minProperties": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "rule_proof_digest": {
+                "$ref": "#/$defs/digest"
+              },
+              "fact_read_set_digest": {
+                "$ref": "#/$defs/digest"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "rule_proof_digest": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "approver": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "approval_digest": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "approval_digest": {
+                "$ref": "#/$defs/digest"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

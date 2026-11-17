@@ -1,0 +1,399 @@
+{
+  "single": {
+    "task": {
+      "id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+      "tenant": "local",
+      "application": "single",
+      "object_id": "asset-1",
+      "requester": "requester",
+      "request_key": "single",
+      "definition_hash": "739e05368423307ddc6c62fa25c3849f8690fa51ed438f99c5b68305bdb6b443",
+      "status": "completed",
+      "next_stage": 1,
+      "grounding_hash": "70291e1dc6ede646da65ab44a0ae5a6a6587be2d20f82221d94aabb4d4826b68",
+      "proposal": {
+        "action": "verify_asset",
+        "definition_hash": "739e05368423307ddc6c62fa25c3849f8690fa51ed438f99c5b68305bdb6b443",
+        "evidence_ids": [
+          "asset-policy"
+        ],
+        "from_state": "pending",
+        "grounding_hash": "70291e1dc6ede646da65ab44a0ae5a6a6587be2d20f82221d94aabb4d4826b68",
+        "object_id": "asset-1",
+        "object_version": 1,
+        "rationale": "object.state 为 pending 且 object.properties.checksum_ok 为 true，符合 asset-policy 中的条件，建议进行 verify_asset",
+        "tenant": "local",
+        "to_state": "verified"
+      },
+      "approver": "reviewer",
+      "approval_hash": "445413c2b4871084f4744c066c8ee004c593ec9796f8d5af259a8783d29eb62c"
+    },
+    "steps": [
+      {
+        "stage": 0,
+        "agent_id": "planner",
+        "proposal": {
+          "action": "verify_asset",
+          "evidence_ids": [
+            "asset-policy"
+          ],
+          "rationale": "object.state 为 pending 且 object.properties.checksum_ok 为 true，符合 asset-policy 中的条件，建议进行 verify_asset"
+        }
+      }
+    ],
+    "events": [
+      {
+        "id": 1,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:47.681Z",
+        "event": "request.accepted",
+        "detail": {
+          "application": "single",
+          "object_id": "asset-1",
+          "requester": "requester"
+        }
+      },
+      {
+        "id": 2,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:47.682Z",
+        "event": "tool.read",
+        "detail": {
+          "knowledge": [
+            {
+              "id": "asset-policy",
+              "version": 1
+            }
+          ],
+          "linked_versions": {},
+          "object_id": "asset-1",
+          "object_version": 1,
+          "stage": 0,
+          "tool": "ontology.lookup"
+        }
+      },
+      {
+        "id": 3,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:47.682Z",
+        "event": "model.started",
+        "detail": {
+          "agent": "planner",
+          "attempt_id": "0a03a21ab4f143b487560b6ca400da0a",
+          "stage": 0
+        }
+      },
+      {
+        "id": 4,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:51.154Z",
+        "event": "model.completed",
+        "detail": {
+          "agent": "planner",
+          "attempt_id": "0a03a21ab4f143b487560b6ca400da0a",
+          "elapsed_ms": 3471,
+          "input_tokens": 398,
+          "model": "qwen2.5-3b-instruct-q4_k_m",
+          "output_tokens": 45,
+          "provider": "openai-compatible"
+        }
+      },
+      {
+        "id": 5,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:51.155Z",
+        "event": "stage.recorded",
+        "detail": {
+          "agent": "planner",
+          "stage": 0,
+          "status": "awaiting_approval"
+        }
+      },
+      {
+        "id": 6,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:51.156Z",
+        "event": "approval.recorded",
+        "detail": {
+          "approver": "reviewer",
+          "proposal_hash": "445413c2b4871084f4744c066c8ee004c593ec9796f8d5af259a8783d29eb62c",
+          "verdict": "approve"
+        }
+      },
+      {
+        "id": 7,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:51.157Z",
+        "event": "policy.allowed",
+        "detail": {
+          "action": "verify_asset",
+          "approver": "reviewer",
+          "executor": "worker",
+          "requester": "requester"
+        }
+      },
+      {
+        "id": 8,
+        "task_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "time": "2026-11-16T13:00:51.157Z",
+        "event": "tool.committed",
+        "detail": {
+          "action": "verify_asset",
+          "operation_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+          "state": "verified",
+          "version": 2
+        }
+      }
+    ],
+    "effects": [
+      {
+        "operation_id": "4748f4b33cc64693a5bf62a4d4b2ea86",
+        "action": "verify_asset",
+        "object_id": "asset-1",
+        "receipt": {
+          "state": "verified",
+          "version": 2
+        }
+      }
+    ]
+  },
+  "collaboration": {
+    "task": {
+      "id": "6a53e356ef774d7e97d451f15251cc5d",
+      "tenant": "local",
+      "application": "collaboration",
+      "object_id": "artifact-1",
+      "requester": "requester",
+      "request_key": "collaboration",
+      "definition_hash": "1f82b16bf1130aed04a1dc75c774fd3fd951105a248c1f4017e862ef733dddb8",
+      "status": "completed",
+      "next_stage": 2,
+      "grounding_hash": "356a025893e64bf19b94f9edc1082e30380bb946fe3395042fa2bcfed44aae31",
+      "proposal": {
+        "action": "publish_artifact",
+        "definition_hash": "1f82b16bf1130aed04a1dc75c774fd3fd951105a248c1f4017e862ef733dddb8",
+        "evidence_ids": [
+          "artifact-policy"
+        ],
+        "from_state": "draft",
+        "grounding_hash": "356a025893e64bf19b94f9edc1082e30380bb946fe3395042fa2bcfed44aae31",
+        "object_id": "artifact-1",
+        "object_version": 1,
+        "rationale": "object.state 为 draft，related.source.state 为 verified，满足 artifact-policy 中的条件，提议 publish_artifact 并引用 artifact-policy 的内容。",
+        "tenant": "local",
+        "to_state": "published"
+      },
+      "approver": "reviewer",
+      "approval_hash": "985ed6b81d8f0b8d9a3bcc9b48b563d7bb74f581a2051a6dbfa3d886e5f595b0"
+    },
+    "steps": [
+      {
+        "stage": 0,
+        "agent_id": "analyst",
+        "proposal": {
+          "action": "publish_artifact",
+          "evidence_ids": [
+            "artifact-policy"
+          ],
+          "rationale": "object.state 为 draft，related.source.state 为 verified，满足 artifact-policy 中的条件，提议 publish_artifact 并引用 artifact-policy 的内容。"
+        }
+      },
+      {
+        "stage": 1,
+        "agent_id": "review_agent",
+        "proposal": {
+          "action": "publish_artifact",
+          "evidence_ids": [
+            "artifact-policy"
+          ],
+          "rationale": "object.state 为 draft，related.source.state 为 verified，满足 artifact-policy 中的条件，提议 publish_artifact 并引用 artifact-policy 的内容。"
+        }
+      }
+    ],
+    "events": [
+      {
+        "id": 9,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:51.158Z",
+        "event": "request.accepted",
+        "detail": {
+          "application": "collaboration",
+          "object_id": "artifact-1",
+          "requester": "requester"
+        }
+      },
+      {
+        "id": 10,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:51.159Z",
+        "event": "tool.read",
+        "detail": {
+          "knowledge": [
+            {
+              "id": "artifact-policy",
+              "version": 1
+            }
+          ],
+          "linked_versions": {
+            "source": 2
+          },
+          "object_id": "artifact-1",
+          "object_version": 1,
+          "stage": 0,
+          "tool": "ontology.lookup"
+        }
+      },
+      {
+        "id": 11,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:51.160Z",
+        "event": "model.started",
+        "detail": {
+          "agent": "analyst",
+          "attempt_id": "8a91da5485364dc9a22ada2a445af4de",
+          "stage": 0
+        }
+      },
+      {
+        "id": 12,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:55.278Z",
+        "event": "model.completed",
+        "detail": {
+          "agent": "analyst",
+          "attempt_id": "8a91da5485364dc9a22ada2a445af4de",
+          "elapsed_ms": 4118,
+          "input_tokens": 455,
+          "model": "qwen2.5-3b-instruct-q4_k_m",
+          "output_tokens": 51,
+          "provider": "openai-compatible"
+        }
+      },
+      {
+        "id": 13,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:55.279Z",
+        "event": "stage.recorded",
+        "detail": {
+          "agent": "analyst",
+          "stage": 0,
+          "status": "planning"
+        }
+      },
+      {
+        "id": 14,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:55.280Z",
+        "event": "tool.read",
+        "detail": {
+          "knowledge": [
+            {
+              "id": "artifact-policy",
+              "version": 1
+            }
+          ],
+          "linked_versions": {
+            "source": 2
+          },
+          "object_id": "artifact-1",
+          "object_version": 1,
+          "stage": 1,
+          "tool": "ontology.lookup"
+        }
+      },
+      {
+        "id": 15,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:55.280Z",
+        "event": "handoff.received",
+        "detail": {
+          "source": "analyst",
+          "target": "review_agent"
+        }
+      },
+      {
+        "id": 16,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:00:55.280Z",
+        "event": "model.started",
+        "detail": {
+          "agent": "review_agent",
+          "attempt_id": "29b372ad3b1d46e5a0ebfb2e46475f43",
+          "stage": 1
+        }
+      },
+      {
+        "id": 17,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:01:00.076Z",
+        "event": "model.completed",
+        "detail": {
+          "agent": "review_agent",
+          "attempt_id": "29b372ad3b1d46e5a0ebfb2e46475f43",
+          "elapsed_ms": 4795,
+          "input_tokens": 525,
+          "model": "qwen2.5-3b-instruct-q4_k_m",
+          "output_tokens": 51,
+          "provider": "openai-compatible"
+        }
+      },
+      {
+        "id": 18,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:01:00.076Z",
+        "event": "stage.recorded",
+        "detail": {
+          "agent": "review_agent",
+          "stage": 1,
+          "status": "awaiting_approval"
+        }
+      },
+      {
+        "id": 19,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:01:00.077Z",
+        "event": "approval.recorded",
+        "detail": {
+          "approver": "reviewer",
+          "proposal_hash": "985ed6b81d8f0b8d9a3bcc9b48b563d7bb74f581a2051a6dbfa3d886e5f595b0",
+          "verdict": "approve"
+        }
+      },
+      {
+        "id": 20,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:01:00.078Z",
+        "event": "policy.allowed",
+        "detail": {
+          "action": "publish_artifact",
+          "approver": "reviewer",
+          "executor": "worker",
+          "requester": "requester"
+        }
+      },
+      {
+        "id": 21,
+        "task_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "time": "2026-11-16T13:01:00.078Z",
+        "event": "tool.committed",
+        "detail": {
+          "action": "publish_artifact",
+          "operation_id": "6a53e356ef774d7e97d451f15251cc5d",
+          "state": "published",
+          "version": 2
+        }
+      }
+    ],
+    "effects": [
+      {
+        "operation_id": "6a53e356ef774d7e97d451f15251cc5d",
+        "action": "publish_artifact",
+        "object_id": "artifact-1",
+        "receipt": {
+          "state": "published",
+          "version": 2
+        }
+      }
+    ]
+  }
+}

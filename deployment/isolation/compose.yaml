@@ -1,0 +1,50 @@
+x-restricted: &restricted
+  user: "65532:65532"
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 64
+  mem_limit: 512m
+  cpus: 1.0
+  tmpfs: ["/tmp:rw,nosuid,nodev,noexec,size=16m,mode=1777"]
+
+services:
+  socket-init:
+    image: ${AI_NATIVE_ISOLATION_IMAGE:?Build the pinned Agent image first}
+    user: "0:0"
+    read_only: true
+    cap_drop: [ALL]
+    cap_add: [CHOWN, FOWNER]
+    security_opt: [no-new-privileges:true]
+    network_mode: none
+    entrypoint: [python, -B, -c, "import os; p='/run/agent'; os.chown(p,65532,65532); os.chmod(p,0o700)"]
+    volumes:
+      - agent_socket:/run/agent
+
+  agent:
+    <<: *restricted
+    image: ${AI_NATIVE_ISOLATION_IMAGE:?Build the pinned Agent image first}
+    command: [--socket, /run/agent/proposal.sock, --models, /run/config/agent.json]
+    env_file:
+      - ${AI_NATIVE_ISOLATION_AGENT_ENV_FILE:?Point to a dedicated model environment file}
+    networks: [model]
+    volumes:
+      - agent_socket:/run/agent
+      - type: bind
+        source: ${AI_NATIVE_ISOLATION_AGENT_CONFIG:?Point to the trusted Agent route file}
+        target: /run/config/agent.json
+        read_only: true
+    depends_on:
+      socket-init:
+        condition: service_completed_successfully
+
+networks:
+  model:
+    driver: bridge
+    internal: true
+    enable_ipv6: false
+    driver_opts:
+      com.docker.network.bridge.gateway_mode_ipv4: isolated
+
+volumes:
+  agent_socket: {}

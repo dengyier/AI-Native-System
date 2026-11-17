@@ -1,0 +1,22 @@
+{
+  "applications": [
+    {
+      "id": "ask-knowledge",
+      "application": "ask-knowledge",
+      "label": "知识问答",
+      "kind": "question"
+    },
+    {
+      "id": "draft-evidence",
+      "application": "draft-evidence",
+      "label": "依据摘编",
+      "kind": "artifact"
+    },
+    {
+      "id": "controlled-action",
+      "application": "controlled-action",
+      "label": "受控校验",
+      "kind": "action"
+    }
+  ]
+}

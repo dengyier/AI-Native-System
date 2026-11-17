@@ -1,0 +1,88 @@
+{
+  "types": {
+    "asset": {
+      "states": ["pending", "verified"],
+      "fields": {"label": "string", "checksum_ok": "boolean"},
+      "links": {}
+    },
+    "artifact": {
+      "states": ["draft", "published"],
+      "fields": {"label": "string", "revision": "integer"},
+      "links": {"source": "asset"}
+    }
+  },
+  "actions": {
+    "verify_asset": {
+      "version": 1,
+      "description": "待校验对象的 checksum_ok 为 true 时，可提议在人工批准后标记为 verified。",
+      "object_type": "asset",
+      "from_state": "pending",
+      "to_state": "verified",
+      "requires_properties": {"checksum_ok": true},
+      "request_role": "request",
+      "approval_role": "approve",
+      "execute_role": "execute"
+    },
+    "publish_artifact": {
+      "version": 1,
+      "description": "衍生对象处于 draft 且关联 source 已是 verified 时，可提议在人工批准后标记为 published。",
+      "object_type": "artifact",
+      "from_state": "draft",
+      "to_state": "published",
+      "requires_link_states": {"source": "verified"},
+      "request_role": "request",
+      "approval_role": "approve",
+      "execute_role": "execute"
+    }
+  },
+  "applications": {
+    "single": {
+      "id": "single",
+      "version": 1,
+      "action": "verify_asset",
+      "executor": "worker",
+      "agents": [
+        {"id": "planner", "instructions": "核对 object.state 和 object.properties.checksum_ok。符合 asset-policy 时给出 verify_asset 建议并引用该规则。"}
+      ],
+      "knowledge": ["asset-policy"]
+    },
+    "collaboration": {
+      "id": "collaboration",
+      "version": 1,
+      "action": "publish_artifact",
+      "executor": "worker",
+      "agents": [
+        {"id": "analyst", "instructions": "核对 object.state 与 related.source.state。满足 artifact-policy 时提议 publish_artifact 并引用该规则。"},
+        {"id": "review_agent", "instructions": "根据当前对象、关联源状态和 artifact-policy 复核 handoff。原建议符合规则则重申同一操作，否则弃权。"}
+      ],
+      "knowledge": ["artifact-policy"]
+    }
+  },
+  "seed": {
+    "actors": [
+      {"tenant": "local", "id": "requester", "roles": ["request"]},
+      {"tenant": "local", "id": "reviewer", "roles": ["approve"]},
+      {"tenant": "local", "id": "worker", "roles": ["execute"]},
+      {"tenant": "local", "id": "guest", "roles": ["read"]},
+      {"tenant": "other", "id": "outsider", "roles": ["request", "approve"]}
+    ],
+    "objects": [
+      {"tenant": "local", "id": "asset-1", "type": "asset", "state": "pending", "version": 1,
+       "properties": {"label": "Source fixture", "checksum_ok": true}, "links": {}},
+      {"tenant": "local", "id": "asset-stale", "type": "asset", "state": "verified", "version": 2,
+       "properties": {"label": "Verified fixture", "checksum_ok": true}, "links": {}},
+      {"tenant": "local", "id": "artifact-1", "type": "artifact", "state": "draft", "version": 1,
+       "properties": {"label": "Derived fixture", "revision": 1}, "links": {"source": "asset-1"}},
+      {"tenant": "local", "id": "artifact-stale", "type": "artifact", "state": "published", "version": 2,
+       "properties": {"label": "Published fixture", "revision": 1}, "links": {"source": "asset-stale"}},
+      {"tenant": "other", "id": "asset-2", "type": "asset", "state": "pending", "version": 1,
+       "properties": {"label": "Other tenant fixture", "checksum_ok": true}, "links": {}}
+    ],
+    "knowledge": [
+      {"tenant": "local", "id": "asset-policy", "version": 1,
+       "text": "object.state 为 pending 且 object.properties.checksum_ok 为 true 时，校验通过，可建议 verify_asset。实际转为 verified 还须人工批准。"},
+      {"tenant": "local", "id": "artifact-policy", "version": 1,
+       "text": "object.state 为 draft 且 related.source.state 为 verified 时，允许建议 publish_artifact。实际转为 published 还须人工复核与批准。"}
+    ]
+  }
+}

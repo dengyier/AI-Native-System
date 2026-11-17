@@ -1,11 +1,26 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ai-native-system"
 version = "0.1.0"
 description = "A framework for verifiable enterprise AI tasks"
 requires-python = ">=3.11,<3.16"
 dependencies = []
+readme = "README.md"
+license = "LicenseRef-AI-Native-System-Noncommercial-1.2 AND MIT"
+license-files = ["LICENSE.md", "ai_native_sdk/LICENSE"]
+
+[project.scripts]
+ai-native-system = "ai_native_system.__main__:main"
+ai-native-system-mcp = "ai_native_system.mcp_server:main"
+
+[project.urls]
+Repository = "https://github.com/dengyier/AI-Native-System"
 
 [project.optional-dependencies]
+mcp = ["mcp==2.3.0"]
 postgres = [
     "alembic==1.20.1",
     "pgvector==0.5.1",
@@ -25,3 +40,14 @@ integrations = [
 
 [tool.uv]
 package = false
+
+[tool.setuptools]
+packages = ["ai_native_system", "ai_native_system.adapters", "ai_native_system.migrations",
+            "ai_native_system._console", "ai_native_system._fixtures", "ai_native_sdk"]
+package-dir = { "ai_native_system._console" = "console", "ai_native_system._fixtures" = "fixtures" }
+include-package-data = false
+
+[tool.setuptools.package-data]
+"ai_native_system._console" = ["index.html", "style.css", "app.js"]
+"ai_native_system._fixtures" = ["conformance.json"]
+"ai_native_system.migrations" = ["*.sql"]

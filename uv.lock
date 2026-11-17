@@ -24,6 +24,9 @@ integrations = [
     { name = "mcp" },
     { name = "openworkproof" },
 ]
+mcp = [
+    { name = "mcp" },
+]
 postgres = [
     { name = "alembic" },
     { name = "pgvector" },
@@ -41,12 +44,13 @@ requires-dist = [
     { name = "llama-index-core", marker = "extra == 'integrations'", specifier = "==0.14.26" },
     { name = "llama-index-vector-stores-postgres", marker = "extra == 'integrations'", specifier = "==0.10.0" },
     { name = "mcp", marker = "extra == 'integrations'", specifier = "==2.3.0" },
+    { name = "mcp", marker = "extra == 'mcp'", specifier = "==2.3.0" },
     { name = "openworkproof", marker = "extra == 'integrations'", specifier = "==1.6.1" },
     { name = "pgvector", marker = "extra == 'postgres'", specifier = "==0.5.1" },
     { name = "psycopg", extras = ["binary"], marker = "extra == 'postgres'", specifier = "==3.3.9" },
     { name = "psycopg-pool", marker = "extra == 'postgres'", specifier = "==3.3.3" },
 ]
-provides-extras = ["postgres", "integrations"]
+provides-extras = ["mcp", "postgres", "integrations"]
 
 [[package]]
 name = "aiohappyeyeballs"

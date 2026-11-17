@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.dengyier/ai-native-system",
+  "title": "AI Native System",
+  "description": "Read authorized applications and task status from an AI Native System deployment.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/dengyier/AI-Native-System",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "ai-native-system",
+      "version": "0.1.0",
+      "transport": {"type": "stdio"},
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
+        {"type": "named", "name": "--with", "value": "mcp==2.3.0"}
+      ],
+      "packageArguments": [
+        {"type": "positional", "value": "mcp"}
+      ],
+      "environmentVariables": [
+        {"name": "AI_NATIVE_API_URL", "description": "The AI Native System API origin", "isRequired": true},
+        {"name": "AI_NATIVE_API_TOKEN", "description": "The bearer token for an authorized API identity", "isRequired": true, "isSecret": true}
+      ]
+    }
+  ]
+}

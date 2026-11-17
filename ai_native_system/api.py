@@ -273,6 +273,10 @@ def make_server(runtime, credentials, port=8789, *, enterprise_identity=None, ca
                 control_store=None, delivery_store=None, attestation_keys=None):
     api = ApplicationAPI(runtime, credentials, enterprise_identity=enterprise_identity, catalog=catalog, console=console,
                          control_store=control_store, delivery_store=delivery_store, attestation_keys=attestation_keys)
+    package_directory = Path(__file__).resolve().parent
+    asset_directory = package_directory / "_console"
+    if not asset_directory.is_dir():
+        asset_directory = package_directory.parent / "console"
     assets = {
         "/console/": ("index.html", "text/html; charset=utf-8"),
         "/console/style.css": ("style.css", "text/css; charset=utf-8"),
@@ -297,7 +301,7 @@ def make_server(runtime, credentials, port=8789, *, enterprise_identity=None, ca
             if target in assets:
                 name, mime = assets[target]
                 try:
-                    content = (Path(__file__).resolve().parent.parent / "console" / name).read_bytes()
+                    content = (asset_directory / name).read_bytes()
                 except OSError:
                     self.write_json(404, {"error": "console asset unavailable"})
                     return

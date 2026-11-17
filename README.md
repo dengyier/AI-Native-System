@@ -1,5 +1,7 @@
 # AI Native System
 
+<!-- mcp-name: io.github.dengyier/ai-native-system -->
+
 面向企业业务的 AI 原生框架，用于构建可审批、可验证、可恢复的 Agent 工作流。应用声明业务对象、关系、规则和动作，Agent 根据获准的事实和知识提出建议。涉及业务写入时，可信执行服务核对审批、OpenWorkProof 授权和源系统版本，再执行条件写入并核验签名回执。
 
 [六层架构](docs/六层系统架构与复用方案-OpenWorkProof.md) · [快速开始](#快速开始) · [接入应用](#接入应用) · [已实现与待完成清单](docs/六层能力核对.md)
@@ -56,6 +58,18 @@ uv run --locked --all-extras --python 3.12 python -B deployment/local-postgres/v
 2. 以 [P8 应用目录](fixtures/p8-applications.json) 和 [P8 Registry](fixtures/p8-registry.json) 登记权限内问答、指定范围依据摘编或版本约束的业务动作。应用使用相应发布、文档与工具权限。 [应用接入与 SDK 用法](docs/P8-通用应用SDK与运行台验收.md)
 3. 接真实对象时，按 Ontology 发布定义映射源 ID、权威字段、关系及业务版本。使用只读接口验证规则的满足、不满足与依据不足，再按已验收的审批和源条件决定写入范围。 [Ontology 与规则验收](docs/P2b-双源事实同步与规则验收.md) · [首个只读试点清单](docs/P9-首个真实业务只读试点填写清单.md)
 4. 接入业务写动作时，分开配置请求者、审批者和执行服务，绑定动作、目标、规则与源版本。使用稳定的请求键和操作 ID 保持重试幂等，按原操作核对签名回执。 [OpenWorkProof 授权](docs/P3-OpenWorkProof授权与执行验收.md) · [MCP 条件写入与签名回执](docs/P4-MCP条件写入与证据闭环验收.md)
+
+### Python 发行包与 MCP 服务端
+
+主框架的 wheel 可从 [GitHub 发布页](https://github.com/dengyier/AI-Native-System/releases) 下载。安装后用 `ai-native-system --db demo.sqlite demo` 运行本地演示。接入 PostgreSQL 的环境可安装 wheel 的 `postgres` 和 `integrations` 可选依赖。
+
+```bash
+python -m pip install 'ai_native_system-0.1.0-py3-none-any.whl[mcp]'
+```
+
+用 MCP 客户端以 stdio 启动 `ai-native-system-mcp`，并提供部署端 API 地址 `AI_NATIVE_API_URL` 与访问令牌 `AI_NATIVE_API_TOKEN`。服务端提供 `list_applications` 和 `get_task` 两种只读工具，使用当前 API 身份的授权。远端 API 使用 HTTPS，本机回环允许 HTTP。
+
+主框架及 MCP 服务端适用根目录的非商业使用许可。独立 Python SDK 和企业动作接口定义采用 MIT。 [主框架与 MCP 许可](LICENSE.md) · [MIT SDK](ai_native_sdk/README.md)
 
 ### 使用自己的 PostgreSQL 测试库
 

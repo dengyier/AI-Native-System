@@ -21,7 +21,10 @@ from .registry import Registry, unique_keys
 from .runtime import Runtime
 from .tools import ToolRegistry, configured_tools
 
-CONFORMANCE = Path(__file__).resolve().parent.parent / "fixtures" / "conformance.json"
+_PACKAGE_DIRECTORY = Path(__file__).resolve().parent
+CONFORMANCE = _PACKAGE_DIRECTORY / "_fixtures" / "conformance.json"
+if not CONFORMANCE.is_file():
+    CONFORMANCE = _PACKAGE_DIRECTORY.parent / "fixtures" / "conformance.json"
 
 
 def _stop_serving(_signum, _frame):
@@ -151,6 +154,10 @@ def _archived_adapters(manifest, default_model, default_tools, *, agent=None):
 
 
 def main():
+    if sys.argv[1:] == ["mcp"]:
+        from .mcp_server import main as serve_mcp
+
+        return serve_mcp()
     args = arguments()
     command = args.command
     resources = ExitStack()

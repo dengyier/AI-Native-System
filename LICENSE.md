@@ -1,10 +1,10 @@
-# AI Native System 非商业使用许可 v1.1
+# AI Native System 非商业使用许可 v1.2
 
 Copyright © 2026 dengyier. 保留所有权利。
 
 ## 1. 适用范围
 
-本许可适用于 dengyier 有权授权的 AI Native System 原创代码、文档及架构图。第三方软件、依赖和其他第三方材料依各自的授权条款使用。
+本许可适用于 dengyier 有权授权的 AI Native System 主框架原创代码、文档及架构图。`ai_native_sdk/` 下的 Python SDK、示例和配套文件适用 [SDK 的 MIT 许可证](ai_native_sdk/LICENSE)。`schemas/ai-native-action-v0.1/` 下的四份 JSON Schema 及配套说明适用 [接口定义的 MIT 许可证](schemas/ai-native-action-v0.1/LICENSE)。第三方软件、依赖和其他第三方材料依各自的授权条款使用。
 
 ## 2. 免费使用范围
 
@@ -12,9 +12,9 @@ Copyright © 2026 dengyier. 保留所有权利。
 
 ## 3. 商业授权和分发
 
-任何商业使用均须事先取得 dengyier 的单独书面授权。商业使用包括服务于企业的正式生产或经营活动、作为收费产品或服务的一部分使用、向客户交付、对外商业托管、转售及其他以取得直接或间接商业利益为目的的使用。
+本许可覆盖的主框架的商业使用均须事先取得 dengyier 的单独书面授权。商业使用包括服务于企业的正式生产或经营活动、作为收费产品或服务的一部分使用、向客户交付、对外商业托管、转售及其他以取得直接或间接商业利益为目的的使用。
 
-本仓库在 GitHub 公开。通过 GitHub 平台功能查看、展示或 Fork 本仓库的权限适用 [GitHub 服务条款](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#5-license-grant-to-other-users)。平台条款授权范围以外的对外分发，包括分发项目源码、二进制副本、文档及修改版本，以及再许可，均须事先取得 dengyier 的书面授权。
+本仓库在 GitHub 公开。通过 GitHub 平台功能查看、展示或 Fork 本仓库的权限适用 [GitHub 服务条款](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#5-license-grant-to-other-users)。在平台条款授权范围以外对本许可覆盖的主框架进行分发或再许可，包括分发源码、二进制副本、文档及修改版本，须事先取得 dengyier 的书面授权。
 
 商业使用及分发授权可联系 [dengyier](https://github.com/dengyier)。
 

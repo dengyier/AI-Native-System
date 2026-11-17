@@ -90,7 +90,9 @@ python -m ai_native_system --postgres --tenant "$tenant" --models "$model_config
 | [Runtime](ai_native_system/runtime.py) · [图编排](ai_native_system/graph_runtime.py) | 管理 Agent 阶段、结构化交接、人工审批和持久恢复 |
 | [知识检索](ai_native_system/knowledge.py) · [中文词法查询](ai_native_system/knowledge_lexical.py) | 在同一索引与权限范围内召回并复验原文 |
 | [OpenWorkProof 执行校验](ai_native_system/owp_gate.py) · [动作与回执契约](schemas/ai-native-action-v0.1/README.md) | 绑定审批、事实、权限和源端证据 |
-| [应用 API](ai_native_system/api.py) · [Python SDK](ai_native_system/client.py) · [运行台](console/) | 访问获准的应用、任务、事实、审批与证据 |
+| [应用 API](ai_native_system/api.py) · [Python SDK](ai_native_sdk/client.py) · [运行台](console/) | 访问获准的应用、任务、事实、审批与证据 |
+
+Python 客户端可独立安装，通过 `from ai_native_sdk import Client` 连接已部署的应用接口。下载包、用法和只读示例见 [SDK 文档](ai_native_sdk/README.md)。
 
 <details>
 <summary>在本地手动推进一个任务</summary>
@@ -137,8 +139,10 @@ node local_model.mjs
 
 ## 许可
 
-Copyright © 2026 dengyier. 本项目采用 [AI Native System 非商业使用许可 v1.1](LICENSE.md)。原创代码、文档及架构图的知识产权由 dengyier 持有。
+Copyright © 2026 dengyier. 原创代码、文档及架构图的知识产权由 dengyier 持有。主框架采用 [AI Native System 非商业使用许可 v1.2](LICENSE.md)。
 
-个人学习和非商业使用免费。企业生产、客户交付、收费托管等商业使用须事先获得单独书面授权。GitHub 平台内的查看与 Fork 适用平台服务条款，对外分发和再许可依项目许可执行。 [商业授权联系 dengyier](https://github.com/dengyier)
+主框架的个人学习和非商业使用免费。将主框架用于企业生产、客户交付、收费托管等商业用途，须事先获得单独书面授权。GitHub 平台内的查看与 Fork 适用平台服务条款，对外分发和再许可依项目许可执行。 [商业授权联系 dengyier](https://github.com/dengyier)
+
+独立 Python SDK 和接入示例，以及企业动作接口定义及配套说明，可按 MIT 许可使用。 [SDK MIT 许可](ai_native_sdk/LICENSE) · [接口定义 MIT 许可](schemas/ai-native-action-v0.1/LICENSE)
 
 第三方依赖适用各自的上游许可证。 [依赖与许可证](docs/P0-环境验收.md#锁定版本与许可)

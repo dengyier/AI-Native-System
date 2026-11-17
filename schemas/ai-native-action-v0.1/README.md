@@ -18,3 +18,7 @@
 [源操作](source-operation.schema.json)绑定实际写目标、源记录映射、预期的原生版本、状态转换和同来源读取守卫。MCP 执行工具接收 `operation` 与 `authorization` 两个字段，查询工具只接收 `operation` 并使用独立认证身份。源系统核验授权后，在业务数据库内原子检查全部版本并提交状态更新和回执。
 
 [源签回执](source-receipt.schema.json)使用 `ai-native-action/source-receipt/v0.1` 加 NUL 的独立 Ed25519 签名域，规范编码使用固定 OpenWorkProof 的 `action-receipt` 基础。源签公钥独立配置。验签同时核对请求和授权摘要，以及返回的目标、旧版本和状态。源系统为每个写目标返回不透明新版本。已知成功或拒绝的去重记录绑定原操作与授权。参考源保留该记录及原签名，`retain_until` 为源承诺的最低保留时刻。签名的 `not_found` 只表示查询当时没有匹配记录。
+
+## 许可
+
+本说明及本目录中的授权、源操作、源签回执和效果证据 JSON Schema 采用 [MIT 许可](LICENSE)。

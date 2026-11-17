@@ -44,7 +44,7 @@ jobs:
 
           def check_metadata(contents):
               metadata = message_from_bytes(contents)
-              assert metadata["Name"] == "ains"
+              assert metadata["Name"] == "ainsys"
               assert metadata["Version"] == version
               assert metadata["License-Expression"] == expression
               assert metadata.get_all("License-File") == ["LICENSE.md"]
@@ -71,7 +71,7 @@ jobs:
 
           sdist, = Path("dist").glob("*.tar.gz")
           with tarfile.open(sdist) as archive:
-              prefix = f"ains-{version}/"
+              prefix = f"ainsys-{version}/"
               check_metadata(archive.extractfile(prefix + "PKG-INFO").read())
               assert archive.extractfile(prefix + "LICENSE.md").read() == license_text
           PY

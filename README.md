@@ -30,7 +30,7 @@ python -m pip install "ai-native-system==0.1.1"
 ai-native-system --help
 ```
 
-AINS 短包将同版本的主框架作为依赖，提供 `ains` 和 `ains-mcp` 命令。短包上架后可用 `pip install ains` 安装框架，或用 `pip install "ains[mcp]"` 一并安装 MCP 支持。 [官方 PyPI](https://pypi.org/project/ai-native-system/) · [短包源码](deployment/ains/)
+AINS 短包 `ainsys` 将同版本的主框架作为依赖，提供 `ains` 和 `ains-mcp` 命令。短包上架后可用 `pip install ainsys` 安装框架，或用 `pip install "ainsys[mcp]"` 一并安装 MCP 支持。 [官方 PyPI](https://pypi.org/project/ai-native-system/) · [短包源码](deployment/ains/)
 
 ### 本地演示
 

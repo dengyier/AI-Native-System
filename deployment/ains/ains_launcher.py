@@ -7,5 +7,5 @@ def mcp_main():
     except ModuleNotFoundError as error:
         if error.name != "mcp":
             raise
-        raise SystemExit('Install MCP support with pip install "ains[mcp]".') from None
+        raise SystemExit('Install MCP support with pip install "ainsys[mcp]".') from None
     return main()

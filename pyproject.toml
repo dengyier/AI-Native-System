@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ai-native-system"
-version = "0.1.0"
+version = "0.1.1"
 description = "A framework for verifiable enterprise AI tasks"
 requires-python = ">=3.11,<3.16"
 dependencies = []
 readme = "README.md"
-license = "LicenseRef-AI-Native-System-Noncommercial-1.2 AND MIT"
+license = "LicenseRef-AI-Native-System-Noncommercial-1.3 AND MIT"
 license-files = ["LICENSE.md", "ai_native_sdk/LICENSE"]
 
 [project.scripts]

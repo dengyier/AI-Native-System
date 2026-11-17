@@ -1,4 +1,4 @@
-# AI Native System 非商业使用许可 v1.2
+# AI Native System 非商业使用许可 v1.3
 
 Copyright © 2026 dengyier. 保留所有权利。
 
@@ -18,11 +18,15 @@ Copyright © 2026 dengyier. 保留所有权利。
 
 商业使用及分发授权可联系 [dengyier](https://github.com/dengyier)。
 
-## 4. 权利保留
+## 4. PyPI 原包分发
+
+对于 dengyier 在 PyPI 上传的原始 Python 源码包和安装包，Python Software Foundation、PyPI 用户及公开或私有镜像站可以免费复制、保存和分发该原包。分发时须保持包内容、版权声明及许可原样，无须为分发该原包另行申请许可。软件的运行、部署和商业使用适用本许可第 2、3 条。
+
+## 5. 权利保留
 
 本项目原创材料的著作权及 dengyier 有权保留的其他知识产权归 dengyier 所有。本许可授予使用权，项目所有权和知识产权继续由 dengyier 持有。项目名称、标识和商标的使用按适用法律或权利人的另行书面授权执行。
 
-## 5. 终止与责任
+## 6. 终止与责任
 
 违反本许可条件时，依本许可取得的使用权终止。依法享有的法定权利继续有效。
 

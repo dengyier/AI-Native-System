@@ -153,9 +153,11 @@ node local_model.mjs
 
 ## 许可
 
-Copyright © 2026 dengyier. 原创代码、文档及架构图的知识产权由 dengyier 持有。主框架采用 [AI Native System 非商业使用许可 v1.2](LICENSE.md)。
+Copyright © 2026 dengyier. 原创代码、文档及架构图的知识产权由 dengyier 持有。主框架采用 [AI Native System 非商业使用许可 v1.3](LICENSE.md)。
 
 主框架的个人学习和非商业使用免费。将主框架用于企业生产、客户交付、收费托管等商业用途，须事先获得单独书面授权。GitHub 平台内的查看与 Fork 适用平台服务条款，对外分发和再许可依项目许可执行。 [商业授权联系 dengyier](https://github.com/dengyier)
+
+由 dengyier 上传到 PyPI 的安装包可依许可第 4 条原样免费分发和镜像。
 
 独立 Python SDK 和接入示例，以及企业动作接口定义及配套说明，可按 MIT 许可使用。 [SDK MIT 许可](ai_native_sdk/LICENSE) · [接口定义 MIT 许可](schemas/ai-native-action-v0.1/LICENSE)
 

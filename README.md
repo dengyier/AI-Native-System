@@ -26,11 +26,11 @@ Agent 进程只持模型侧凭据，从可信服务收到按权限裁剪的上�
 ### PyPI 安装
 
 ```bash
-python -m pip install "ai-native-system==0.1.1"
-ai-native-system --help
+python -m pip install ainsys
+ains --help
 ```
 
-AINS 短包 `ainsys` 将同版本的主框架作为依赖，提供 `ains` 和 `ains-mcp` 命令。短包上架后可用 `pip install ainsys` 安装框架，或用 `pip install "ainsys[mcp]"` 一并安装 MCP 支持。 [官方 PyPI](https://pypi.org/project/ai-native-system/) · [短包源码](deployment/ains/)
+AINS 短包 `ainsys` 安装同版本的 `ai-native-system` 主框架，并提供 `ains` 和 `ains-mcp` 命令。 [AINS 短包](https://pypi.org/project/ainsys/) · [主框架安装包](https://pypi.org/project/ai-native-system/) · [短包源码](deployment/ains/)
 
 ### 本地演示
 
@@ -73,10 +73,10 @@ uv run --locked --all-extras --python 3.12 python -B deployment/local-postgres/v
 主框架的 wheel 可从 [GitHub 发布页](https://github.com/dengyier/AI-Native-System/releases) 下载。安装后用 `ai-native-system --db demo.sqlite demo` 运行本地演示。接入 PostgreSQL 的环境可安装 wheel 的 `postgres` 和 `integrations` 可选依赖。
 
 ```bash
-python -m pip install 'ai-native-system[mcp] @ https://github.com/dengyier/AI-Native-System/releases/download/v0.1.1/ai_native_system-0.1.1-py3-none-any.whl'
+python -m pip install "ainsys[mcp]"
 ```
 
-用 MCP 客户端以 stdio 启动 `ai-native-system-mcp`，并提供部署端 API 地址 `AI_NATIVE_API_URL` 与访问令牌 `AI_NATIVE_API_TOKEN`。服务端提供 `list_applications` 和 `get_task` 两种只读工具，使用当前 API 身份的授权。远端 API 使用 HTTPS，本机回环允许 HTTP。
+用 MCP 客户端以 stdio 启动 `ains-mcp`，并提供部署端 API 地址 `AI_NATIVE_API_URL` 与访问令牌 `AI_NATIVE_API_TOKEN`。服务端提供 `list_applications` 和 `get_task` 两种只读工具，使用当前 API 身份的授权。远端 API 使用 HTTPS，本机回环允许 HTTP。
 
 支持 MCPB 0.4 与 UV 的客户端可安装 [AI Native System MCPB](https://github.com/dengyier/AI-Native-System/releases/download/v0.1.1/ai-native-system-0.1.1.mcpb)，并按提示填入 API 地址和令牌。 [官方 MCP Registry 条目](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.dengyier%2Fai-native-system/versions/0.1.1)
 

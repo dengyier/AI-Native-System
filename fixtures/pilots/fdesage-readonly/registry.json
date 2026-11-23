@@ -1,0 +1,35 @@
+{
+  "applications": {},
+  "actions": {},
+  "types": {
+    "fdesage_captured_observation": {
+      "states": [
+        "captured"
+      ],
+      "fields": {
+        "snapshot_json": "string",
+        "source_profile": "string",
+        "source_release": "string",
+        "coverage": "string",
+        "captured_at": "string",
+        "source_workspace_id": "string",
+        "source_project_id": "string",
+        "source_document_id": "string",
+        "document_version": "integer",
+        "content_sha256": "string",
+        "subject_user_id": "string",
+        "membership_generation": "integer",
+        "delegation_id": "string",
+        "service_id": "string",
+        "observation_digest": "string",
+        "ontology_digest": "string"
+      },
+      "links": {}
+    }
+  },
+  "seed": {
+    "actors": [],
+    "objects": [],
+    "knowledge": []
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "namespace": "fdesage-readonly-observations",
+  "version": 1,
+  "rules": {},
+  "relations": {},
+  "types": {
+    "fdesage_captured_observation": {
+      "states": [
+        "captured"
+      ],
+      "properties": {
+        "snapshot_json": {
+          "type": "string"
+        },
+        "source_profile": {
+          "type": "string"
+        },
+        "source_release": {
+          "type": "string"
+        },
+        "coverage": {
+          "type": "string"
+        },
+        "captured_at": {
+          "type": "string"
+        },
+        "source_workspace_id": {
+          "type": "string"
+        },
+        "source_project_id": {
+          "type": "string"
+        },
+        "source_document_id": {
+          "type": "string"
+        },
+        "document_version": {
+          "type": "integer"
+        },
+        "content_sha256": {
+          "type": "string"
+        },
+        "subject_user_id": {
+          "type": "string"
+        },
+        "membership_generation": {
+          "type": "integer"
+        },
+        "delegation_id": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "string"
+        },
+        "observation_digest": {
+          "type": "string"
+        },
+        "ontology_digest": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "schema_version": 1,
+  "events": {},
+  "actions": {}
+}

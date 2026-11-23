@@ -1,0 +1,16 @@
+{
+  "profile": "fdesage-captured-observation-mapping/1",
+  "sourceProfile": "fdesage-ains-readonly-snapshot/1",
+  "mode": "immutable_captured_observation",
+  "coverage": "selected_object",
+  "objectType": "fdesage_captured_observation",
+  "identity": "fdesage-observation:sha256(canonical-complete-validated-snapshot)",
+  "recordVersion": 1,
+  "recordVersionMeaning": "immutable-local-observation-only",
+  "nativeSourceVersion": null,
+  "nativeStreamPosition": null,
+  "nativeCursor": null,
+  "authoritativeFacts": false,
+  "executableApplication": false,
+  "endUserLiveAuthorization": false
+}

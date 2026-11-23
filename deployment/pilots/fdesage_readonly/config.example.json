@@ -1,0 +1,16 @@
+{
+  "sourceOrigin": "http://127.0.0.1:3100",
+  "scope": {
+    "workspace_id": "1",
+    "project_id": "2",
+    "document_id": "3",
+    "document_version": 4,
+    "subject_user_id": "5",
+    "membership_generation": 1,
+    "delegation_id": "capture-1",
+    "service_id": "ains-shadow"
+  },
+  "ainsTenant": "fdesage-shadow-test",
+  "sourceTokenEnv": "FDESAGE_READONLY_SOURCE_TOKEN",
+  "importDsnEnv": "FDESAGE_AINS_OBSERVATION_IMPORT_DSN"
+}

@@ -1,0 +1,25 @@
+{
+  "tools": [
+    {
+      "name": "method-card.verify",
+      "version": "1",
+      "transport": "mcp-sdk-http",
+      "endpoint": "http://127.0.0.1:3193/mcp",
+      "execute_tool": "apply_fdesage_method_card",
+      "lookup_tool": "lookup_fdesage_method_card",
+      "execute_schema_digest": "10b15255a2419ac8d87dfb7bd99fdce61697dfc697795b16408927986f52934d",
+      "lookup_schema_digest": "06ddfd7d7684b949bff12f29e4385a4ad60a804b94b4d455cda5c7fdd19f8265",
+      "token_env": "FDE_SOURCE_MCP_EXECUTE_TOKEN",
+      "lookup_token_env": "FDE_SOURCE_MCP_LOOKUP_TOKEN",
+      "idempotent": true,
+      "source": {
+        "source": "fdesage-method-cards",
+        "lookup_principal": "fde-method-source-lookup",
+        "retention_seconds": 86400,
+        "receipt_public_keys": [
+          "/controlled/fde-source-public.pem"
+        ]
+      }
+    }
+  ]
+}

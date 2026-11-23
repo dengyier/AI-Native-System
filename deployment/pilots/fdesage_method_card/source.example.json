@@ -1,0 +1,10 @@
+{
+  "source_origin": "http://127.0.0.1:3192",
+  "port": 3193,
+  "timeout": 5,
+  "receipt_public_keys": ["/controlled/fde-source-public.pem"],
+  "node_execute_token_env": "FDE_SOURCE_NODE_EXECUTE_TOKEN",
+  "node_lookup_token_env": "FDE_SOURCE_NODE_LOOKUP_TOKEN",
+  "mcp_execute_token_env": "FDE_SOURCE_MCP_EXECUTE_TOKEN",
+  "mcp_lookup_token_env": "FDE_SOURCE_MCP_LOOKUP_TOKEN"
+}
